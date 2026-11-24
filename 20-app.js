@@ -38,14 +38,14 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
 $('f').addEventListener('submit',function(){setTimeout(function(){var m=($('ans').innerText||'').match(/BLK-\d{3}/);track('price-lookup',{code:m?m[0]:'not-found'})},300)});
 
 // order + lead forms
-var FS='https://formsubmit.co/ajax/g77577076@gmail.com';
-function send(subject,obj){obj._subject=subject;obj._template='table';obj._captcha='false';return fetch(FS,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(obj)}).then(function(r){return r.ok})['catch'](function(){return false})}
+var FS='https://docs.google.com/forms/d/e/1FAIpQLSf0cJgEjqpfBlSgHTPZ_nzWLKyHBpWgEQVd2Cddq1Ff6H6NRQ/formResponse';
+function send(kind,o){var b=new URLSearchParams();b.append('entry.2117167215',o.name||'');b.append('entry.157568974',o.phone||'');b.append('entry.707650105','['+kind+'] '+Object.keys(o).filter(function(k){return k!=='name'&&k!=='phone'}).map(function(k){return k+': '+o[k]}).join(' | '));return fetch(FS,{method:'POST',mode:'no-cors',body:b}).then(function(){return true},function(){return false})}
 function vals(f){var o={};new FormData(f).forEach(function(v,k){if(k!=='_honey'&&k!=='consent')o[k]=String(v).slice(0,300)});return o}
 $('of').addEventListener('submit',function(e){e.preventDefault();var f=e.target;if(f._honey.value)return;var o=vals(f);
  var msg='طلب جديد من موقع BLOK\nالاسم: '+o.name+'\nالموبايل: '+o.phone+'\nالمحافظة: '+o.gov+'\nالعنوان: '+o.address+'\nالكود: '+o.code+'\nالمقاس واللون: '+o.size+'\nالكمية: '+o.qty;
  var link=wa(msg);var w=window.open(link,'_blank');
- send('طلب جديد BLOK '+o.code,o);track('order-submit',{code:o.code});
+ send('طلب',o);track('order-submit',{code:o.code});
  $('om').innerHTML='تمام، اتجهز طلبك. '+(w?'':'')+'<a style="color:var(--cu)" target="_blank" rel="noreferrer" href="'+link+'">لو واتساب ماتفتحش اضغط هنا</a>'});
 $('lf').addEventListener('submit',function(e){e.preventDefault();var f=e.target;if(f._honey.value)return;var o=vals(f);
- send('رقم جديد BLOK',o).then(function(ok){$('lm').textContent=ok?'وصلنا رقمك، هنتواصل معاك.':'حصلت مشكلة. ابعتلنا على واتساب 01023279424';if(ok)f.reset()});track('lead-submit',{code:o.code||'none'})});
+ send('ليد',o).then(function(ok){$('lm').textContent=ok?'وصلنا رقمك، هنتواصل معاك.':'حصلت مشكلة. ابعتلنا على واتساب 01023279424';if(ok)f.reset()});track('lead-submit',{code:o.code||'none'})});
 })();
