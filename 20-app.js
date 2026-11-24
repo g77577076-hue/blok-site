@@ -29,7 +29,6 @@ if(io)document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 var root=document.documentElement,tick=false;
 function sc(){var y=window.scrollY,h=root.scrollHeight-innerHeight;root.style.setProperty('--sy',y);root.style.setProperty('--p',h>0?y/h:0);tick=false}
 addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(sc)}},{passive:true});sc();
-})();
 setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<innerHeight*1.2)el.classList.add('in')})},400);
 if(!('IntersectionObserver' in window))document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
 
@@ -49,3 +48,4 @@ $('of').addEventListener('submit',function(e){e.preventDefault();var f=e.target;
  $('om').innerHTML='تمام، اتجهز طلبك. '+(w?'':'')+'<a style="color:var(--cu)" target="_blank" rel="noreferrer" href="'+link+'">لو واتساب ماتفتحش اضغط هنا</a>'});
 $('lf').addEventListener('submit',function(e){e.preventDefault();var f=e.target;if(f._honey.value)return;var o=vals(f);
  send('رقم جديد BLOK',o).then(function(ok){$('lm').textContent=ok?'وصلنا رقمك، هنتواصل معاك.':'حصلت مشكلة. ابعتلنا على واتساب 01023279424';if(ok)f.reset()});track('lead-submit',{code:o.code||'none'})});
+})();
