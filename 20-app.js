@@ -32,3 +32,8 @@ addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(s
 })();
 setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<innerHeight*1.2)el.classList.add('in')})},400);
 if(!('IntersectionObserver' in window))document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
+
+// analytics events (Umami)
+function track(n,d){try{window.umami&&umami.track(n,d)}catch(e){}}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;var m=decodeURIComponent(a.href).match(/BLK-\d{3}/);track('whatsapp-click',{code:m?m[0]:'general'})},true);
+$('f').addEventListener('submit',function(){setTimeout(function(){var m=($('ans').innerText||'').match(/BLK-\d{3}/);track('price-lookup',{code:m?m[0]:'not-found'})},300)});
