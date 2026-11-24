@@ -4,7 +4,7 @@ var wa=function(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)};
 var $=function(i){return document.getElementById(i)};
 var AR='٠١٢٣٤٥٦٧٨٩';
 var norm=function(s){return s.replace(/[٠-٩]/g,function(d){return AR.indexOf(d)}).toUpperCase().replace(/\s+/g,'')};
-var fmt=function(n){return n.toLocaleString('ar-EG')};var pr=function(p){return p.price==null?'<div class="price"><small>السعر على واتساب</small></div>':'<div class="price">'+fmt(p.price)+' <small>ج.م</small></div>'};
+var fmt=function(n){return n.toLocaleString('en-US')};var pr=function(p){return p.price==null?'<div class="price"><small>السعر على واتساب</small></div>':'<div class="price">'+fmt(p.price)+' <small>ج.م</small></div>'};
 var esc=function(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML};
 document.querySelectorAll('[data-wa]').forEach(function(a){a.href=wa(a.getAttribute('data-wa'));a.target='_blank';a.rel='noreferrer'});
 // lookup
@@ -20,7 +20,7 @@ var cat='الكل';$('cnt').textContent=P.length+' قطعة. كل قطعة لي�
 function chips(){$('chips').innerHTML=cats.map(function(c){return '<button type="button" class="'+(c===cat?'on':'')+'" data-c="'+c+'">'+c+'</button>'}).join('')}
 function render(){var s=$('s').value.trim(),t=norm(s);
  var l=P.filter(function(p){return (cat==='الكل'||p.cat===cat)&&(!s||p.name.indexOf(s)>-1||p.code.indexOf(t)>-1)});
- $('list').innerHTML=l.map(function(p,i){return '<li style="animation-delay:'+Math.min(i,12)*30+'ms">'+(p.imgs.length?'<img class="th" loading="lazy" alt="'+esc(p.code)+'" src="'+p.imgs[0]+'">':'')+'<div class="inf"><div class="code"><bdi>'+p.code+'</bdi></div><div class="name">'+esc(p.name)+'</div></div><div class="end">'+pr(p)+'<a target="_blank" rel="noreferrer" href="'+wa('عايز أطلب '+p.code+' ('+p.name+')')+'">اطلب</a></div></li>'}).join('')||'<li>مفيش نتيجة. <a style="color:var(--cu)" target="_blank" rel="noreferrer" href="'+wa('بدور على: '+s)+'">اسألنا على واتساب</a></li>'}
+ $('list').innerHTML=l.map(function(p,i){return '<li style="animation-delay:'+Math.min(i,12)*30+'ms">'+(p.imgs.length?'<img class="th" loading="lazy" alt="'+esc(p.code)+'" src="'+p.imgs[0]+'" width="64" height="80">':'<div class="th ph"><b>BLOK</b><i>صورة قريبًا</i></div>')+'<div class="inf"><div class="code"><bdi>'+p.code+'</bdi></div><div class="name">'+esc(p.name)+'</div></div><div class="end">'+pr(p)+'<a target="_blank" rel="noreferrer" href="'+wa('عايز أطلب '+p.code+' ('+p.name+')')+'">اطلب</a></div></li>'}).join('')||'<li>مفيش نتيجة. <a style="color:var(--cu)" target="_blank" rel="noreferrer" href="'+wa('بدور على: '+s)+'">اسألنا على واتساب</a></li>'}
 $('chips').addEventListener('click',function(e){var c=e.target.getAttribute&&e.target.getAttribute('data-c');if(c){cat=c;chips();render()}});
 $('s').addEventListener('input',render);chips();render();
 // motion
