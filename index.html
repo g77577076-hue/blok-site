@@ -38,6 +38,34 @@
  <div class="chips" id="chips"></div>
  <ul class="list" id="list"></ul>
 </section>
+<section class="card rv" id="order">
+ <h2>اطلب دلوقتي</h2>
+ <p class="muted">املا بياناتك وهنفتحلك واتساب برسالة الطلب جاهزة. الشحن بيتأكد معاك على واتساب.</p>
+ <form class="frm" id="of" autocomplete="on">
+  <input name="name" placeholder="الاسم" required aria-label="الاسم">
+  <input name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="رقم الموبايل" required pattern="[0-9+ ]{10,15}" aria-label="رقم الموبايل">
+  <select name="gov" required aria-label="المحافظة"><option value="">المحافظة</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الدقهلية</option><option>البحيرة</option><option>الفيوم</option><option>الغربية</option><option>الإسماعيلية</option><option>المنوفية</option><option>المنيا</option><option>القليوبية</option><option>الوادي الجديد</option><option>السويس</option><option>أسوان</option><option>أسيوط</option><option>بني سويف</option><option>بورسعيد</option><option>دمياط</option><option>الشرقية</option><option>جنوب سيناء</option><option>كفر الشيخ</option><option>مطروح</option><option>الأقصر</option><option>قنا</option><option>شمال سيناء</option><option>سوهاج</option><option>البحر الأحمر</option></select>
+  <textarea name="address" rows="2" placeholder="العنوان بالتفصيل" required aria-label="العنوان"></textarea>
+  <div class="two"><input name="code" dir="ltr" placeholder="كود القطعة BLK-050" required aria-label="كود القطعة"><input name="qty" type="number" min="1" max="20" value="1" aria-label="الكمية"></div>
+  <input name="size" placeholder="المقاس واللون" required aria-label="المقاس واللون">
+  <input name="_honey" tabindex="-1" autocomplete="off" style="display:none">
+  <label class="cons"><input type="checkbox" name="consent" required> نتواصل معاك بخصوص طلبك فقط</label>
+  <button class="cta" type="submit">ابعت الطلب على واتساب</button>
+  <p class="note" id="om" role="status"></p>
+ </form>
+</section>
+<section class="card rv" id="lead">
+ <h2>سيب رقمك ونكلمك</h2>
+ <form class="frm" id="lf">
+  <input name="name" placeholder="الاسم" required aria-label="الاسم">
+  <input name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="رقم الموبايل أو واتساب" required pattern="[0-9+ ]{10,15}" aria-label="رقم الموبايل">
+  <input name="code" dir="ltr" placeholder="كود القطعة (اختياري)" aria-label="كود القطعة">
+  <input name="_honey" tabindex="-1" autocomplete="off" style="display:none">
+  <label class="cons"><input type="checkbox" name="consent" required> نتواصل معاك بخصوص طلبك فقط</label>
+  <button class="ghost" type="submit">ابعت رقمي</button>
+  <p class="note" id="lm" role="status"></p>
+ </form>
+</section>
 <section class="card rv"><h2>إزاي تطلب</h2>
  <ol class="steps"><li>اختار القطعة وخد كودها.</li><li>ابعت الكود على واتساب <bdi dir="ltr">01023279424</bdi>.</li><li>هنأكد السعر والتوفر والشحن لمحافظتك.</li></ol></section>
 </main>
