@@ -34,6 +34,7 @@ if(!('IntersectionObserver' in window))document.querySelectorAll('.rv').forEach(
 
 // analytics events (GA4)
 function track(n,d){try{window.gtag&&gtag('event',n.replace(/-/g,'_'),d||{})}catch(e){}}
+document.addEventListener('click',function(e){var s=e.target.closest&&e.target.closest('a[data-social]');if(s)track('social-click',{network:s.getAttribute('data-social')})},true);
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="wa.me"]');if(!a)return;var m=decodeURIComponent(a.href).match(/BLK-\d{3}/);track('whatsapp-click',{code:m?m[0]:'general'})},true);
 $('f').addEventListener('submit',function(){setTimeout(function(){var m=($('ans').innerText||'').match(/BLK-\d{3}/);track('price-lookup',{code:m?m[0]:'not-found'})},300)});
 
