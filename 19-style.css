@@ -64,3 +64,4 @@ h1 .cu{color:var(--cu)}
 .rv.in{opacity:1;transform:none;filter:none}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none;transition:none}.marq,.scroll i{animation:none}.bg *{transform:none!important}html{scroll-behavior:auto}}
 .th{width:64px;height:80px;object-fit:cover;border-radius:10px;border:1px solid #2b3238}.inf{flex:1}.hi{width:100%;max-height:340px;object-fit:cover;border-radius:12px;margin-bottom:10px}
+.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:#1b2024;color:var(--cu);flex:none}.ph b{font-size:12px;letter-spacing:2px;font-weight:900}.ph i{font-style:normal;font-size:9px;color:#8a8f94}
