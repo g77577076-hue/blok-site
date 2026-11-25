@@ -195,3 +195,7 @@ input,select,textarea{border-radius:14px}
 .pm input{accent-color:var(--cu)}
 .vc{display:grid;gap:10px;margin:8px 0}.vn{font-size:28px;font-weight:900;letter-spacing:.06em;color:var(--cu2);text-align:center;padding:14px;border-radius:20px;background:var(--gl);border:1px dashed rgba(201,138,91,.6)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row2 .btn{padding:12px 8px;font-size:14px}
+.shotbox{display:grid;gap:10px;margin-top:14px;padding:16px;border-radius:22px;background:rgba(201,138,91,.08);border:1px solid rgba(201,138,91,.55);box-shadow:0 0 22px rgba(201,138,91,.18)}
+.shotbox[hidden]{display:none}.shotbox small{color:#cfcabd;line-height:1.7}.shotbox b{color:var(--cu2)}
+.shotpick{display:grid;place-items:center;min-height:54px;padding:12px;border-radius:99px;border:1px dashed rgba(227,167,121,.8);background:var(--gl);cursor:pointer;font-weight:800;text-align:center}
+.shotbox img{width:100%;max-height:260px;object-fit:contain;border-radius:16px;background:#0008}.shotbox img[hidden]{display:none}
