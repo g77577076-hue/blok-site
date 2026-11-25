@@ -1,0 +1,4 @@
+const V='blok-v2';const A=['index.html','store.css','store.js','config.js','products.js','1-logo-s.webp'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(A)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET'||/admin/.test(r.url)||new URL(r.url).origin!==location.origin)return;e.respondWith(caches.open(V).then(c=>c.match(r).then(h=>{const f=fetch(r).then(n=>{if(n.ok)c.put(r,n.clone());return n}).catch(()=>h);return h||f})))});
