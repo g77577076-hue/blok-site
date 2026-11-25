@@ -188,3 +188,4 @@ input,select,textarea{border-radius:14px}
  body[data-page=product] .tabs,body[data-page=checkout] .tabs{display:none}
  body[data-page=product],body[data-page=checkout]{padding-bottom:0}
 }
+.foot p{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
