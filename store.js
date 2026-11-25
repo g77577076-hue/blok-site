@@ -133,13 +133,14 @@ function renderSummary(){var S=$('#sum');if(!S)return;var h='';cart.forEach(func
  S.innerHTML=(h||'<div class="empty">السلة فاضية. <a style="color:var(--cu)" href="'+ROOT+'index.html#shop">ارجع للمتجر</a></div>')+'<div class="tot"><span>المنتجات</span><span>'+fmt(s)+' ج.م</span></div><div class="tot"><span>الشحن</span><span>بيتأكد على واتساب</span></div><div class="tot big"><span>الدفع</span><span id="payv">'+(({cod:'عند الاستلام',card:'فيزا / كارت',vcash:'فودافون كاش'})[(D.querySelector('input[name=pay]:checked')||{}).value]||'عند الاستلام')+'</span></div><p class="note">الشحن بيتأكد معاك على واتساب وبتدفعه مع الطلب عند الاستلام.</p>';
  var d=$('#depv');if(d)d.textContent=fmt(dep)+' ج.م'}
 var CF=$('#cf');
-if(CF){var PV={cod:'عند الاستلام',card:'فيزا / كارت',vcash:'فودافون كاش'};CF.addEventListener('change',function(e){if(e.target&&e.target.name==='pay'){var v=$('#payv');if(v)v.textContent=PV[e.target.value]||''}});var u=LS.g('blok_user',{});$('#gov').innerHTML='<option value="">اختار المحافظة</option>'+GOV.map(function(g){return'<option>'+g+'</option>'}).join('');
+if(CF){var PV={cod:'عند الاستلام',card:'فيزا / كارت',vcash:'فودافون كاش'};CF.addEventListener('change',function(e){if(e.target&&e.target.id==='shot'){var fl=e.target.files[0],pv=$('#shotprev'),er=$('#shoter');er.textContent='';if(fl&&/^image\//.test(fl.type)){pv.src=URL.createObjectURL(fl);pv.hidden=false;$('#shotlbl').firstChild.textContent='✅ '+fl.name.slice(0,28)+' (دوس لتغيير الصورة)'}else{pv.hidden=true;e.target.value='';er.textContent='اختار صورة (لقطة شاشة) بس'}}if(e.target&&e.target.name==='pay'){var sb=$('#shotbox');if(sb)sb.hidden=e.target.value!=='vcash';var v=$('#payv');if(v)v.textContent=PV[e.target.value]||''}});var u=LS.g('blok_user',{});$('#gov').innerHTML='<option value="">اختار المحافظة</option>'+GOV.map(function(g){return'<option>'+g+'</option>'}).join('');
  ['name','phone','gov','address'].forEach(function(k){if(u[k])CF.elements[k].value=u[k]});
  renderSummary();
  track('begin_checkout',{currency:'EGP',value:sub(),items:cart.map(function(i){return item(by(i.code),i.qty,i.size)})});
  var seen={};$$('input,select,textarea',CF).forEach(function(el){el.addEventListener('focus',function(){var n=el.name||el.getAttribute('data-n');if(n&&!seen[n]){seen[n]=1;track('checkout_field',{field:n})}})});
  $$('input[name=pay]',CF).forEach(function(r){r.addEventListener('change',function(){track('add_payment_info',{currency:'EGP',value:sub(),payment_type:r.value})})});
  var ab=function(){if(cart.length&&!CF._done&&Object.keys(seen).length)track('checkout_abandon',{last_field:Object.keys(seen).pop()})};addEventListener('pagehide',ab);
+function shrink(file){return new Promise(function(res,rej){var im=new Image(),u=URL.createObjectURL(file);im.onload=function(){var m=1000,w=im.width,h=im.height,k=Math.min(1,m/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);var q=.72,d=c.toDataURL('image/jpeg',q);while(d.length>420000&&q>.3){q-=.1;d=c.toDataURL('image/jpeg',q)}if(d.length>700000)rej(new Error('big'));else res(d)};im.onerror=function(){rej(new Error('bad'))};im.src=u})}
  CF.addEventListener('submit',function(e){e.preventDefault();var f=CF.elements,er=0;
   function bad(n,m){var el=f[n];el.setAttribute('aria-invalid','true');var x=el.parentNode.querySelector('.er');if(x)x.textContent=m;er++}
   $$('.er',CF).forEach(function(x){x.textContent=''});
@@ -147,16 +148,20 @@ if(CF){var PV={cod:'عند الاستلام',card:'فيزا / كارت',vcash:'�
   if(f.name.value.trim().length<3)bad('name','اكتب اسمك');
   var ph=f.phone.value.replace(/[٠-٩]/g,function(d){return'٠١٢٣٤٥٦٧٨٩'.indexOf(d)}).replace(/[\s-]/g,'');if(!/^(\+?20|0)?1[0125]\d{8}$/.test(ph))bad('phone','رقم موبايل مصري صحيح (مثال 01012345678)');
   if(!f.gov.value)bad('gov','اختار المحافظة');if(f.address.value.trim().length<8)bad('address','اكتب العنوان بالتفصيل');
+  var shf=f.pay&&f.pay.value==='vcash'?($('#shot').files[0]||null):null;if(f.pay&&f.pay.value==='vcash'&&!shf){$('#shoter').textContent='لازم ترفع صورة التحويل (إجباري)';er++;var sbx=$('#shotbox');if(sbx&&!$('[aria-invalid=true]',CF))sbx.scrollIntoView({behavior:'smooth',block:'center'})}
   if(f._honey.value)return;if(er){track('checkout_error',{count:er});var fe=$('[aria-invalid=true]',CF);if(fe)fe.focus();return}
   var bad2=cart.filter(function(i){var p=by(i.code);if(!p)return true;if(!p.track)return false;var a=i.size?(+p.stock[i.size]||0):p.total;return i.qty>a});
   if(bad2.length){toast('في قطعة في السلة خلصت أو الكمية أكبر من المتاح. راجع السلة.');return}
   var s=sub(),dep=0,id='BLK-'+Date.now().toString(36).toUpperCase().slice(-6),method=(f.pay&&f.pay.value)||'cod';
+  var fin=function(){
   var lines=cart.map(function(i){var p=by(i.code);return p.code+' | '+p.name+(i.size?' | '+i.size:'')+' | x'+i.qty+' | '+fmt(p.price*i.qty)+' ج.م'});
   var o={id:id,name:f.name.value.trim(),phone:ph,gov:f.gov.value,address:f.address.value.trim(),notes:f.notes.value.trim(),items:cart.slice(),lines:lines,subtotal:s,deposit:dep,pay:method,ts:new Date().toISOString(),status:method==='cod'?'بانتظار تأكيد الواتساب':method==='card'?'بانتظار لينك الدفع بالكارت':'بانتظار تحويل فودافون كاش'};
   LS.s('blok_user',{name:o.name,phone:o.phone,gov:o.gov,address:o.address});var os=LS.g('blok_orders',[]);os.unshift(o);LS.s('blok_orders',os.slice(0,30));
   CF._done=1;submit(o);
   track('purchase',{transaction_id:id,currency:'EGP',value:s,shipping:0,payment_type:method,items:cart.map(function(i){return item(by(i.code),i.qty,i.size)})});
-  done(o);cart=[];save()})}
+  done(o);cart=[];save()
+  };
+  if(method==='vcash'){var btn=$('.btn.blk[type=submit]',CF);if(btn){btn.disabled=true;btn.textContent='بنرفع صورة التحويل...'}shrink(shf).then(function(img){return fetch('https://firestore.googleapis.com/v1/projects/'+C.firebase.projectId+'/databases/(default)/documents/shots?documentId='+id+'&key='+C.firebase.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:{id:{stringValue:id},img:{stringValue:img},createdAt:{timestampValue:new Date().toISOString()}}})}).then(function(r){if(!r.ok)throw new Error('up')})}).then(fin).catch(function(){if(btn){btn.disabled=false;btn.textContent='أكّد الطلب'}$('#shoter').textContent='معرفناش نرفع الصورة. جرّب صورة تانية أو تأكد من النت.';toast('فشل رفع الصورة')})}else fin()})}
 function submit(o){var txt='['+o.id+'] '+o.lines.join(' ; ')+' | محافظة: '+o.gov+' | عنوان: '+o.address+' | إجمالي: '+o.subtotal+' | دفع: '+o.pay+(o.notes?' | ملاحظات: '+o.notes:'');
  if(C.firebase){try{fetch('https://firestore.googleapis.com/v1/projects/'+C.firebase.projectId+'/databases/(default)/documents/orders?documentId='+o.id+'&key='+C.firebase.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:{id:{stringValue:o.id},name:{stringValue:o.name},phone:{stringValue:o.phone},gov:{stringValue:o.gov},address:{stringValue:o.address},notes:{stringValue:o.notes},items:{stringValue:o.lines.join('\n')},subtotal:{integerValue:String(o.subtotal)},deposit:{integerValue:String(o.deposit)},pay:{stringValue:o.pay},cart:{stringValue:JSON.stringify(o.items)},status:{stringValue:'new'},createdAt:{timestampValue:o.ts}}}),keepalive:true})}catch(e){}}
  var b=new URLSearchParams();b.append('entry.2117167215',o.name);b.append('entry.157568974',o.phone);b.append('entry.707650105','[طلب متجر] '+txt);try{fetch(C.form,{method:'POST',mode:'no-cors',body:b,keepalive:true})}catch(e){}}
@@ -166,7 +171,7 @@ function done(o){var VC=C.show||'01023279424',tot=fmt(o.subtotal),pm=o.pay;
  var pay='';
  if(pm==='cod')pay='<div>الإجمالي <b>'+tot+' ج.م</b> + الشحن، والدفع <b>كاش عند الاستلام</b>.</div><div class="note">ابعت تفاصيل الطلب على واتساب وبنأكد معاك المقاس والشحن قبل ما نشحن.</div>';
  else if(pm==='card')pay='<div>الإجمالي <b>'+tot+' ج.م</b> + الشحن، والدفع <b>بالفيزا / الكارت</b>.</div><div class="note">ابعت الطلب على واتساب وهنبعتلك لينك دفع آمن بالمبلغ النهائي بعد تأكيد المقاس والشحن.</div>';
- else pay='<div class="vc"><div>حوّل <b>'+tot+' ج.م</b> (قيمة القطع) على محفظة فودافون كاش:</div><div class="vn" dir="ltr">'+VC+'</div><div class="row2"><button type="button" class="btn gh" id="cpn">انسخ الرقم</button><a class="btn gh" href="tel:*9%23">افتح فودافون كاش</a></div><div class="note">من تطبيق «أنا فودافون» أو الكود *9# اختار تحويل أموال وحوّل على الرقم ده. الشحن بيتأكد معاك على واتساب. بعد التحويل دوس الزرار تحت.</div></div>';
+ else pay='<div class="vc"><div>حوّل <b>'+tot+' ج.م</b> (قيمة القطع) على محفظة فودافون كاش:</div><div class="vn" dir="ltr">'+VC+'</div><div class="row2"><button type="button" class="btn gh" id="cpn">انسخ الرقم</button><a class="btn gh" id="vapp" href="tel:*9%23" data-intent="intent://#Intent;package=com.emeint.android.myservices;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.emeint.android.myservices;end">افتح تطبيق أنا فودافون</a></div><div class="note">من تطبيق «أنا فودافون» أو الكود *9# اختار تحويل أموال وحوّل على الرقم ده. الشحن بيتأكد معاك على واتساب. بعد التحويل دوس الزرار تحت.</div></div>';
  var vmsg=msg+'\nحوّلت '+tot+' ج.م على فودافون كاش '+VC+'. مرفق لقطة شاشة التحويل.';
  var btn=pm==='vcash'?'<a class="btn wa blk" target="_blank" rel="noopener" href="'+wa(vmsg)+'" id="sendwa">حوّلت وابعت التأكيد على واتساب</a>':'<a class="btn wa blk" target="_blank" rel="noopener" href="'+wa(msg)+'" id="sendwa">ابعت تفاصيل الطلب على واتساب</a>';
  $('#ckw').innerHTML='<div class="box okb"><h2>تمام يا '+esc(o.name.split(' ')[0])+'، طلبك اتسجل ✅</h2><div>رقم الطلب: <b dir="ltr">'+o.id+'</b></div>'+pay+btn+'<a class="btn gh blk" href="'+ROOT+'track.html">متابعة الطلب</a></div>';
@@ -183,3 +188,5 @@ D.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest(
 if('serviceWorker' in navigator&&location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register(ROOT+'sw.js').catch(function(){})})}
 }
 })();
+
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("#vapp");if(a&&/Android/i.test(navigator.userAgent)){e.preventDefault();location.href=a.getAttribute("data-intent")}});
