@@ -1,0 +1,13 @@
+# BLOK
+
+> BLOK (بلوك) is an Egyptian streetwear online store selling winter jackets, hoodies and sweatshirts with a European style. Site language: Egyptian Arabic. Currency: EGP.
+
+## Key facts
+- Order: add to cart on the site, order is confirmed on WhatsApp +201023279424. Payment is cash on delivery only (no online payment, no deposit).
+- Shipping to all Egyptian governorates, free shipping, prices are final. Returns 14 days (30 days for defects or wrong item).
+- Facebook: https://www.facebook.com/BlockFashion2027
+- Instagram: https://www.instagram.com/blokfashion2027/
+
+## Pages
+- [Store](https://g77577076-hue.github.io/blok-site/): catalog, price lookup, policies, FAQ
+- [سويت شيرت نبيتي سادة برقبة دائرية BLK-050](https://g77577076-hue.github.io/blok-site/BLK-050.html): 639 EGP
