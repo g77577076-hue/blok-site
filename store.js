@@ -132,7 +132,7 @@ var LF=$('#lf');if(LF)LF.addEventListener('submit',function(e){e.preventDefault(
  track('price_lookup',{code:p?p.code:'not-found'})});
 /* product page */
 var PD=$('#pd');if(PD){var pcode=PD.getAttribute('data-code');if(pcode==='__')pcode=(location.search.match(/[?&]c=([^&]+)/)||[])[1]||'';if(!pcode){var nn=parseInt((location.search.match(/[?&]n=(\d+)/)||[])[1],10),pm=nn?P.filter(function(x){return sNum(x.code)===nn}):[];if(pm.length===1)pcode=pm[0].code}pcode=decodeURIComponent(pcode).toUpperCase();var p=by(pcode);
- if(!p){PD.innerHTML='<div class="empty" style="grid-column:1/-1">القطعة دي مش موجودة أو اتشالت. <a style="color:var(--cu)" href="'+ROOT+'index.html#shop">ارجع للمتجر</a></div>'}
+ if(!p){PD.innerHTML='<div class="empty" style="grid-column:1/-1">القطعة دي مش موجودة أو اتشالت. <a style="color:var(--cu)" href="'+ROOT+'index.html#shop">ارجع للمتجر</a></div>';var sb=$('.stickybuy');if(sb)sb.style.display='none'}
  else{var imgs=p.imgs.slice(),size='',qn=1,ix=0,sz=function(x){return p.track?(+p.stock[x]||0):99};
  D.title=p.name+' '+p.code+' | BLOK';$('h1',PD).textContent=p.name;$('.tag',PD).textContent=p.code;$('.muted',PD).textContent=p.desc||'';
  (function(){var m=$('.muted',PD),b=D.createElement('button');b.type='button';b.className='btn gh';b.id='cplk';b.style.cssText='margin:8px 0;padding:8px 14px;font-size:13px';b.textContent='🔗 نسخ لينك المنتج';b.addEventListener('click',function(){copyLink(slink(p))});m.parentNode.insertBefore(b,m.nextSibling)})();
